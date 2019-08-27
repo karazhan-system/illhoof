@@ -8,7 +8,8 @@ const setRoute = name => {
   api.use(router.routes(), router.allowedMethods())
 }
 
-setRoute('document')
 setRoute('common')
+setRoute('site')
+setRoute('server')
 
 module.exports = api
