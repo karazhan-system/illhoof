@@ -1,0 +1,49 @@
+{
+  "name": "attunmen",
+  "version": "1.0.0",
+  "description": "Illhoof，卡拉赞Boss，特里斯坦.邪蹄",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "start": "npm run serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karazhan-system/illhoof.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/karazhan-system/illhoof/issues"
+  },
+  "homepage": "https://github.com/karazhan-system/illhoof#readme",
+  "dependencies": {
+    "@koa/cors": "^3.0.0",
+    "axios": "^0.19.0",
+    "bluebird": "^3.5.5",
+    "core-js": "^2.6.5",
+    "element-ui": "^2.11.1",
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-compress": "^3.0.0",
+    "koa-json-error": "^3.1.2",
+    "koa-logger": "^3.2.1",
+    "koa-parameter": "^3.0.1",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "moment": "^2.24.0",
+    "mongoose": "^5.6.9",
+    "redis": "^2.8.0",
+    "vue": "^2.6.10",
+    "vue-router": "^3.1.2"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.10.0",
+    "@vue/cli-service": "^3.10.0",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
+    "vue-template-compiler": "^2.6.10"
+  }
+}
