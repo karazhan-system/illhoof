@@ -8,11 +8,11 @@ import Home from './Home'
 
 export default parseRoutes([
   {
-    path: '/site',
-    redirect: '/site/home',
+    path: '/server',
+    redirect: '/server/home',
     children: [
       {
-        path: '/site/home',
+        path: '/server/home',
         layout: MainLayout,
         component: Home,
       }

@@ -12,11 +12,14 @@ const state = {
   createFormData: {},
   editFormData: {},
   formRules: {
-    domain: [
+    name: [
       { required: true, message: '请输入采集规则的目标域名', trigger: 'blur' },
     ],
-    script: [
-      { required: true, message: '请设置采集规则', trigger: 'change' },
+    ip: [
+      { required: true, message: '请输入采集规则的目标域名', trigger: 'blur' },
+    ],
+    passwd: [
+      { required: true, message: '请输入采集规则的目标域名', trigger: 'blur' },
     ],
   },
   selection: [],
@@ -29,59 +32,50 @@ const events = {
     this.dlgCreateVisible = true
     this.$nextTick(() => {
       this.$refs.createForm.clearValidate()
-      this.editor = this.createEditor()
     })
   },
   _Delete () {
     if (this.selection.length) {
-      this.$confirm('是否删除所选规则？', { type: 'warning' }).then(() => {
-        this.deleteRules()
+      this.$confirm('是否删除所选服务器？', { type: 'warning' }).then(() => {
+        this.deleteServers()
       }).catch(err => {})
     } else {
-      this.$alert('请选择要删除的规则！')
+      this.$alert('请选择要删除的服务器！')
     }
   },
-  _EditRule (rule) {
+  _Edit (server) {
     this.dlgEditVisible = true
-    this.editFormData = rule
+    this.editFormData = server
 
     this.$nextTick(() => {
       this.$refs.editForm.clearValidate()
-      this.editor = this.createEditor()
-      this.editor.setValue(rule.script)
     })
   },
   _Select (selection) {
     this.selection = selection
   },
   _ConfirmCreate () {
-    this.$set(this.createFormData, 'script', this.editor.getValue())
-    
     this.$refs.createForm.validate(valid => {
       if (valid) {
         this.dlgCreateVisible = false
-        this.editor.dispose()
-        this.createRule()
+        this.createServer()
       } else {
         return false
       }
     })
   },
   _ConfirmEdit () {
-    this.$set(this.editFormData, 'script', this.editor.getValue())
-
     this.$refs.editForm.validate(valid => {
       if (valid) {
         this.dlgEditVisible = false
-        this.editor.dispose()
-        this.editRule(this.editFormData)
+        this.editServer(this.editFormData)
       } else {
         return false
       }
     })
   },
   _Page () {
-    this.getRules()
+    this.getServers()
   },
 } 
 
@@ -95,26 +89,18 @@ export default {
   },
   methods: {
     ...events,
-    createEditor () {
-      return monaco.editor.create(this.$refs.editor, {
-        theme: 'vs-dark',
-        fontSize: '14px',
-        fontWeight: '500',
-        language: 'javascript'
-      })
-    },
     async init () {
-      await this.getRules()
+      await this.getServers()
     },
-    async createRule () {
-      const result = await Model.createRule(this.createFormData)
+    async createServer () {
+      const result = await Model.createServer(this.createFormData)
       if (result) {
         this.$refs.createForm.resetFields()
-        this.getRules()
+        this.getServers()
       }
     },
-    async getRules () {
-      const result = await Model.getRules({
+    async getServers () {
+      const result = await Model.getServers({
         ...this.page
       })
       if (result) {
@@ -122,23 +108,23 @@ export default {
         this.page.pageCount = result.total
       }
     },
-    async deleteRules () {
-      const result = await Model.deleteRules({
+    async deleteServers () {
+      const result = await Model.deleteServers({
         ids: this.selection.map(item => item._id)
       })
       if (result) {
-        this.$message('成功删除任务！')
-        this.getRules()
+        this.$message('成功删除服务器！')
+        this.getServers()
       }
     },
-    async editRule ({ _id, ...rest }) {
-      const result = await Model.editRule({
+    async editServer ({ _id, ...rest }) {
+      const result = await Model.editServer({
         _id, 
         ...rest
       })
       if (result) {
-        this.$message('成功修改任务！')
-        this.getRules()
+        this.$message('成功修改服务器！')
+        this.getServers()
       }
     }
     

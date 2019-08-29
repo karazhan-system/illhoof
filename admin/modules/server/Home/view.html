@@ -6,22 +6,30 @@
 
   <el-table :data="rules" height="100%" stripe @selection-change="_Select">
     <el-table-column type="selection"></el-table-column>
-    <el-table-column prop="domain" label="目标网站"></el-table-column>
-    <el-table-column prop="createdAt" label="创建时间" width="180"></el-table-column>
+    <el-table-column prop="name" label="服务器名称"></el-table-column>
+    <el-table-column prop="ip" label="服务器IP"></el-table-column>
+    <el-table-column prop="account" label="服务器帐号"></el-table-column>
+    <el-table-column prop="createdAt" label="添加时间" width="180"></el-table-column>
     <el-table-column label="操作" width="90px" frozen>
       <el-button-group slot-scope="{row}">
-        <el-button @click="_EditRule(row)"><span class="icon i-edit"></span></el-button>
+        <el-button @click="_Edit(row)"><span class="icon i-edit"></span></el-button>
       </el-button-group>
     </el-table-column>
   </el-table>
 
-  <el-dialog :visible.sync="dlgCreateVisible" title="新建规则" width="70%" top="36px">
+  <el-dialog :visible.sync="dlgCreateVisible" title="新增服务器" width="70%" top="36px">
     <el-form ref="createForm"  :rules="formRules" :model="createFormData">
-      <el-form-item label="域名" prop="domain">
-        <el-input v-model="createFormData['domain']" placeholder="请输入规则目标域名（不含www）"/>
+      <el-form-item label="服务器名称" prop="name">
+        <el-input v-model="createFormData['name']" placeholder="请输入服务器名称"/>
       </el-form-item>
-      <el-form-item label="规则" prop="script">
-        <div ref="editor" class="editor"></div>
+      <el-form-item label="服务器IP" prop="ip">
+        <el-input v-model="createFormData['ip']" placeholder="请输入服务器IP"/>
+      </el-form-item>
+      <el-form-item label="账户名">
+        <el-input v-model="createFormData['account']" placeholder="请输入服务器账户名（默认为root）"/>
+      </el-form-item>
+      <el-form-item label="登录密码" prop="passwd">
+        <el-input v-model="createFormData['passwd']" placeholder="请输入服务器登录密码"/>
       </el-form-item>
     </el-form>
     <div slot="footer">
@@ -33,11 +41,17 @@
 
   <el-dialog :visible.sync="dlgEditVisible" title="编辑任务" width="70%" top="36px">
     <el-form ref="editForm"  :rules="formRules" :model="editFormData">
-      <el-form-item label="域名" prop="domain">
-        <el-input v-model="editFormData['domain']" placeholder="请输入任务要采集的网站域名（不含www）" disabled/>
+      <el-form-item label="服务器名称" prop="name">
+        <el-input v-model="editFormData['name']" placeholder="请输入服务器名称"/>
       </el-form-item>
-      <el-form-item label="规则" prop="script">
-        <div ref="editor" class="editor"></div>
+      <el-form-item label="服务器IP" prop="ip">
+        <el-input v-model="editFormData['ip']" placeholder="请输入服务器IP"/>
+      </el-form-item>
+      <el-form-item label="账户名">
+        <el-input v-model="editFormData['account']" placeholder="请输入服务器账户名（默认为root）"/>
+      </el-form-item>
+      <el-form-item label="登录密码" prop="passwd">
+        <el-input v-model="editFormData['passwd']" placeholder="请输入服务器登录密码"/>
       </el-form-item>
     </el-form>
     <div slot="footer">
