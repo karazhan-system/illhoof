@@ -1,25 +1,25 @@
 import request from '@/commons/request'
 
 export default {
-  createRule: data => request({
-    url: '/rule',
+  createSite: data => request({
+    url: '/site',
     method: 'post',
     data
   }),
-  getRules: data => request({
-    url: '/rule',
+  getSites: data => request({
+    url: '/site',
     method: 'get',
     params: data
   }),
-  editRule: ({ _id, ...rest }) => request({
-    url: `/rule/${_id}`,
+  editSite: ({ _id, ...rest }) => request({
+    url: `/site/${_id}`,
     method: 'put',
     data: {
       ...rest
     }
   }),
-  deleteRules: data => request({
-    url: '/rule',
+  deleteSites: data => request({
+    url: '/site',
     method: 'delete',
     data
   })

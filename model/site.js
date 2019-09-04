@@ -3,24 +3,19 @@ const db = require('../common/database')
 
 const Schema = mongoose.Schema
 const schema = new Schema({
-	// 服务器名称
-	name: { 
+	// 站点名称
+	name: {
+		type: String,
+		required: true
+	},
+	// 站点域名
+	domain: { 
 		type: String, 
 		required: true 
 	},
-	// 服务器ip
-	ip: { 
-		type: String, 
-		required: true 
-	},
-	// 服务器账户
-	account: { 
-		type: String, 
-		default: 'root' 
-	},
-	// 服务器密码
-	passwd: { 
-		type: String, 
+	// 部署服务器
+	server: { 
+		type: Schema.Types.ObjectId, 
 		required: true 
 	},
 }, { 
@@ -29,7 +24,7 @@ const schema = new Schema({
 })
 
 // 定义Model
-const model = db.model('Server', schema)
+const model = db.model('Site', schema)
 
 // 导出数据模型
 module.exports = model

@@ -12,11 +12,14 @@ const state = {
   createFormData: {},
   editFormData: {},
   formRules: {
-    domain: [
-      { required: true, message: '请输入采集规则的目标域名', trigger: 'blur' },
+    name: [
+      { required: true, message: '请输入站点名称', trigger: 'blur' },
     ],
-    script: [
-      { required: true, message: '请设置采集规则', trigger: 'change' },
+    domain: [
+      { required: true, message: '请输入站点域名', trigger: 'blur' },
+    ],
+    server: [
+      { required: true, message: '请选择部署的服务器', trigger: 'change' },
     ],
   },
   selection: [],
@@ -29,59 +32,50 @@ const events = {
     this.dlgCreateVisible = true
     this.$nextTick(() => {
       this.$refs.createForm.clearValidate()
-      this.editor = this.createEditor()
     })
   },
   _Delete () {
     if (this.selection.length) {
-      this.$confirm('是否删除所选规则？', { type: 'warning' }).then(() => {
-        this.deleteRules()
+      this.$confirm('是否删除所选站点？', { type: 'warning' }).then(() => {
+        this.deleteSites()
       }).catch(err => {})
     } else {
-      this.$alert('请选择要删除的规则！')
+      this.$alert('请选择要删除的站点！')
     }
   },
-  _EditRule (rule) {
+  _Edit (site) {
     this.dlgEditVisible = true
-    this.editFormData = rule
+    this.editFormData = site
 
     this.$nextTick(() => {
       this.$refs.editForm.clearValidate()
-      this.editor = this.createEditor()
-      this.editor.setValue(rule.script)
     })
   },
   _Select (selection) {
     this.selection = selection
   },
   _ConfirmCreate () {
-    this.$set(this.createFormData, 'script', this.editor.getValue())
-    
     this.$refs.createForm.validate(valid => {
       if (valid) {
         this.dlgCreateVisible = false
-        this.editor.dispose()
-        this.createRule()
+        this.createSite()
       } else {
         return false
       }
     })
   },
   _ConfirmEdit () {
-    this.$set(this.editFormData, 'script', this.editor.getValue())
-
     this.$refs.editForm.validate(valid => {
       if (valid) {
         this.dlgEditVisible = false
-        this.editor.dispose()
-        this.editRule(this.editFormData)
+        this.editSite(this.editFormData)
       } else {
         return false
       }
     })
   },
   _Page () {
-    this.getRules()
+    this.getSites()
   },
 } 
 
@@ -95,26 +89,18 @@ export default {
   },
   methods: {
     ...events,
-    createEditor () {
-      return monaco.editor.create(this.$refs.editor, {
-        theme: 'vs-dark',
-        fontSize: '14px',
-        fontWeight: '500',
-        language: 'javascript'
-      })
-    },
     async init () {
-      await this.getRules()
+      await this.getSites()
     },
-    async createRule () {
-      const result = await Model.createRule(this.createFormData)
+    async createSite () {
+      const result = await Model.createSite(this.createFormData)
       if (result) {
         this.$refs.createForm.resetFields()
-        this.getRules()
+        this.getSites()
       }
     },
-    async getRules () {
-      const result = await Model.getRules({
+    async getSites () {
+      const result = await Model.getSites({
         ...this.page
       })
       if (result) {
@@ -122,23 +108,23 @@ export default {
         this.page.pageCount = result.total
       }
     },
-    async deleteRules () {
-      const result = await Model.deleteRules({
+    async deleteSites () {
+      const result = await Model.deleteSites({
         ids: this.selection.map(item => item._id)
       })
       if (result) {
-        this.$message('成功删除任务！')
-        this.getRules()
+        this.$message('成功删除站点！')
+        this.getSites()
       }
     },
-    async editRule ({ _id, ...rest }) {
-      const result = await Model.editRule({
+    async editSite ({ _id, ...rest }) {
+      const result = await Model.editSite({
         _id, 
         ...rest
       })
       if (result) {
-        this.$message('成功修改任务！')
-        this.getRules()
+        this.$message('成功修改站点！')
+        this.getSites()
       }
     }
     

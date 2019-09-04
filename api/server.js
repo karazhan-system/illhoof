@@ -4,7 +4,7 @@ const Server = require('../model/server')
 
 api.prefix('/server')
 
-// 新增任务
+// 新增服务器
 api.post('/', async ctx => {
   ctx.verifyParams({
     name: 'string',
@@ -16,7 +16,7 @@ api.post('/', async ctx => {
   ctx.body = server
 })
 
-// 删除任务
+// 删除服务器
 api.delete('/', async ctx => {
   ctx.verifyParams({
     ids: 'array'
@@ -29,7 +29,7 @@ api.delete('/', async ctx => {
   }
 })
 
-// 修改任务
+// 修改服务器
 api.put('/:_id', async ctx => {
   ctx.verifyParams({
     name: 'string',
@@ -46,7 +46,7 @@ api.put('/:_id', async ctx => {
   }  
 })
 
-// 查询任务列表
+// 查询服务器列表
 api.get('/', async ctx => {
   const { size, index } = ctx.util.getPageInfo(ctx.query)
   const servers = await Server.find().sort({ createdAt: -1 }).limit(size).skip(index)
